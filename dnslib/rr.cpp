@@ -445,7 +445,7 @@ void ResourceRecord::encode(Buffer &buffer) {
         auto dataLen = buffer.pos() - bufferPosRDataLength - 2;
         size_t bufferLastPos = buffer.pos();
         buffer.seek(bufferPosRDataLength);
-        buffer.writeUint16(dataLen); // overwrite 0 with actual size of RData
+        buffer.writeUint16((uint16_t)dataLen); // overwrite 0 with actual size of RData
         buffer.seek(bufferLastPos);
     }
 }

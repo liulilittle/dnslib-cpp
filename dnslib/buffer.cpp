@@ -104,6 +104,11 @@
 
 #include "buffer.h"
 
+#ifdef _WIN32
+#pragma warning(push)
+#pragma warning(disable: 4267)
+#endif
+
 using namespace dns;
 
 uint8_t Buffer::readUint8() {
@@ -177,7 +182,9 @@ void Buffer::writeBytes(const uint8_t *data, size_t count) {
         return; // maybe something wrong
     }
     auto p = movePtr(bufPtr + count);
-    memcpy(p, data, count);
+    if (p) {
+        memcpy(p, data, count);
+    }
 }
 
 std::string Buffer::readCharString() {
@@ -348,3 +355,7 @@ uint8_t *Buffer::movePtr(uint8_t *newPtr) {
     bufPtr = newPtr;
     return oldPtr;
 }
+
+#ifdef _WIN32
+#pragma warning(pop)
+#endif

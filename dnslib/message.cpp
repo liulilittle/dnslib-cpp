@@ -19,6 +19,11 @@
 
 using namespace dns;
 
+#ifdef _WIN32
+#pragma warning(push)
+#pragma warning(disable: 4267)
+#endif
+
 static void decodeResourceRecords(Buffer &buffer, size_t count, std::vector<ResourceRecord> &list) {
     list.resize(count);
     for (auto &rr : list) {
@@ -128,3 +133,7 @@ std::string Message::toDebugString() {
     }
     return text.str();
 }
+
+#ifdef _WIN32
+#pragma warning(pop)
+#endif
